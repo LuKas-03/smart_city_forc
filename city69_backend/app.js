@@ -29,4 +29,12 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(500).json({
+        errorCode: -1,
+        error: err
+    })
+})
+
 module.exports = app;
