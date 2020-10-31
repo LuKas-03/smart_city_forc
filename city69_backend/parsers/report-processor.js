@@ -23,7 +23,7 @@ const index_calc = function(line, coefficients) {
     
     return {
         date: line['дата'],
-        index: accumulate
+        index: accumulate.toFixed(2)
     };
 }
 

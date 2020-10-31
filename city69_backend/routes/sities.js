@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const SityRepository = require('../database/models/Sity/SityRepository');
-const config = require('../config/config');
-const { getOne } = require('../database/models/Sity/SityRepository');
 
 
 // создание города

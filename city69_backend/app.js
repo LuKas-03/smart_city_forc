@@ -8,6 +8,7 @@ const connectDatabase = require('./database/index');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const sitiesRouter = require('./routes/sities');
+const indicatorsRouter = require('./routes/indicators');
 const devRouter = require('./routes/dev');
 
 const app = express();
@@ -31,8 +32,9 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/sities', sitiesRouter);
+app.use('/indicators', indicatorsRouter);
 
-app.use('/dev', devRouter); // для экспериментов
+app.use('/dev', devRouter); // test
 
 app.use((err, req, res, next) => {
     console.log(err);
