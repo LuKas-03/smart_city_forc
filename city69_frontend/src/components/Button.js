@@ -14,4 +14,5 @@ const Block = styled.div`
   color: white;
   background: #0078e7;
   border-radius: 8px;
+  cursor: pointer;
 `;
