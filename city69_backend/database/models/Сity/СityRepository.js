@@ -14,9 +14,9 @@ class СityRepository {
         }
     };
 
-    static save = async (name) => {
+    static save = async (name, population) => {
         try {
-            let сityModel = new СityModel({ name });
+            let сityModel = new СityModel({ name, population });
             сityModel = await сityModel.save();
             return Сity.modelToDomain(сityModel);
         } catch(error) {

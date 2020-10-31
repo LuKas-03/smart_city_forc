@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const IndicatorRepository = require('../database/models/Indicator/IndicatorRepository');
+const stat_gibdd = require('../integrations/stat_gibdd');
 
 
 router.post('/', async (req, res, next) => {
-    const { name, sity, provider, isFromReport } = req.body;
+    const { city, index, date, provider, isFromReport, values } = req.body;
     try {
-        const indicator = await IndicatorRepository.save(name, sity, provider, isFromReport);
+        const indicator = await IndicatorRepository.save(city, index, date, provider, isFromReport, values);
         if(indicator.errorCode === 0) {
             res.json(indicator);
         }

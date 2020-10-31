@@ -9,6 +9,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const сitiesRouter = require('./routes/cities');
 const indicatorsRouter = require('./routes/indicators');
+const providersRouter = require('./routes/providers');
 const devRouter = require('./routes/dev');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cities', сitiesRouter);
 app.use('/indicators', indicatorsRouter);
+app.use('/providers', providersRouter);
 
 app.use('/dev', devRouter); // test
 

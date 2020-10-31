@@ -5,9 +5,9 @@ const CityRepository = require('../database/models/Сity/СityRepository');
 
 // создание города
 router.post('/', async (req, res, next) => {
-    const { name } = req.body;
+    const { name, population } = req.body;
     try {
-        const city = await CityRepository.save(name);
+        const city = await CityRepository.save(name, population);
         console.log(city)
         if(city.errorCode === 0) {
             res.json(city);

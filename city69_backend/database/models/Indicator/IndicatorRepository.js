@@ -1,4 +1,5 @@
 const IndicatorModel = require('./Indicator');
+const IndicatorProviderModel = require('./IndicatorProvider');
 const Indicator = require('../../../Domain/IndicatorDomain/Indicator');
 
 
@@ -14,9 +15,9 @@ class IndicatorRepository {
         }
     };
 
-    static save = async (name, sity, provider, isFromReport) => {
+    static save = async (city, index, date, provider, isFromReport, values) => {
         try {
-            let indicatorModel = new IndicatorModel({ name, sity, provider, isFromReport });
+            let indicatorModel = new IndicatorModel({ city, index, date, provider, isFromReport, values });
             indicatorModel = await indicatorModel.save();
             return Indicator.modelToDomain(indicatorModel);
         } catch(error) {
