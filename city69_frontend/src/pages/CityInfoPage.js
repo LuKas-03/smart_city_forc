@@ -6,7 +6,7 @@ import { Header } from '../components/Header';
 import { SmalText, LinkStyled, DisplayRowSB, Header2, Header4, Header3, Header5 } from '../styles';
 
 const indicators = [
-    {}, {}, {} ,{}, {}, {}
+    {id: '1'}, {id: '2'}, {id: '3'} ,{id: '4'}, {id: '5'}, {id: '6'}
 ]
 
 export const CityInfoPage = () => {
@@ -48,7 +48,9 @@ export const CityInfoPage = () => {
         <IndicatorsContainer>
             {
                 indicators.map(indicator => 
-                    <Card />    
+                    <Card 
+                        link = { `/cityInfo/${indicator.id}` }
+                    />    
                 )
             }
         </IndicatorsContainer>
@@ -73,5 +75,6 @@ const IndicatorsContainer = styled.div`
     overflow-y: auto;
     display: flex;
     flex-flow: wrap;
-    margin: 30px -10px 0 -10px;
+    margin: 0px -10px 0 -10px;
+    padding-top: 30px;
 `;

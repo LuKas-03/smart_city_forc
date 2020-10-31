@@ -1,28 +1,57 @@
-import React from "react";
+import React, { useState,useContext } from "react";
 import { Header } from "../components/Header";
 import styled from "styled-components";
 import background from "../background.svg";
 import { CheckBox } from "../components/CheckBox";
 import { Header2, SmalText } from "../styles";
-import { Button } from "../components/Button";
+import { useHttp } from "../hooks/http.hook";
+import { AuthContext } from "../context/AuthContext";
+
 
 export const AuthPage = () => {
+  const { request } = useHttp();
+  const auth = useContext(AuthContext);
+
+
+  const [form, setForm] = useState({
+    login: "",
+    password: "",
+  });
+  const changeHandler = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value });
+    console.log(form);
+  };
+  const loginHandler = async () => {
+    try {
+      const data = await request("/users", "POST", { ...form });
+      console.log("DATA", data);
+      // auth.login(data.token, data.userId,form.email);
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+  };
+
   return (
     <Box>
       <Header />
       <Header2>Вход в систему</Header2>
       <Label>Логин</Label>
-      <Input name="email" placeholder={"Ваш логин"}></Input>
+      <Input
+        onChange={changeHandler}
+        name="login"
+        placeholder={"Ваш логин"}
+      ></Input>
       <Label>Пароль</Label>
 
       <Input
+        onChange={changeHandler}
         name="password"
         type="password"
         placeholder={"Введите пароль"}
       ></Input>
 
-      <CheckBox> Оставаться в системе</CheckBox>
-      <Button onClick="" >Войти в систему</Button>
+      <CheckBox onClick={()=>console.log("!!!!")}> Оставаться в системе</CheckBox>
+      <Button onClick={loginHandler}>Войти в систему</Button>
     </Box>
   );
 };
@@ -55,3 +84,14 @@ const Input = styled.input`
   }
 `;
 const Label = SmalText;
+const Button = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 251px;
+  height: 46px;
+  color: white;
+  background: #0078e7;
+  border-radius: 8px;
+  cursor: pointer;
+`;

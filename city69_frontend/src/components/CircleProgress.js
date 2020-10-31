@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import styled  from 'styled-components';
-
+import { Header4 } from '../styles';
 
 export const CircleProgress = props => {
-    let { radius, stroke, progress, firstColor, secondColor, } = props;
+    let { radius, stroke, progress, firstColor, secondColor, fontSize} = props;
 
     radius = radius || 50;
     stroke = stroke || 10;
     progress = progress || 75;
     firstColor = firstColor || 'blue';
     secondColor = secondColor || '#D2D6E2';
+    fontSize = fontSize || 18;
 
     const [stateProgress, setStateProgress] = useState(0);
 
@@ -74,6 +75,20 @@ export const CircleProgress = props => {
             />
         </svg>
         </UnderCircle>
+
+        <Number bottom = { bottomOffset + radius + (fontSize)}
+        >
+            <Header4 style = { {
+                    display: 'flex',
+                    flexDirection: 'row', 
+                    width: '98%',
+                    justifyContent: 'center',
+                    fontSize: `${fontSize}px`,
+                    color: firstColor,
+                } }>
+                75
+            </Header4>
+        </Number>
         </Box>
     )
 }
@@ -90,6 +105,12 @@ const TopCircle = styled.div`
 const UnderCircle = styled.div`
     position: relative;
     z-index: 100;
+    bottom: ${props => props.bottom}px;
+`;
+
+const Number = styled.div`
+    position: relative;
+    z-index: 300;
     bottom: ${props => props.bottom}px;
 `;
 
