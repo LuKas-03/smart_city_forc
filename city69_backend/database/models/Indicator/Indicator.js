@@ -3,13 +3,18 @@ const Schema = mongoose.Schema;
 
 
 const schema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    sity: {
+    city: {
         type: Schema.Types.ObjectId,
-        ref: 'Сity'
+        ref: 'Сity',
+        required: true
+    },
+    index: {
+        type: Number,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
     },
     provider: {
         type: Schema.Types.ObjectId,
@@ -18,6 +23,9 @@ const schema = new Schema({
     isFromReport: {
         type: Boolean,
         required: true
+    },
+    values: {
+        type: Boolean
     }
 })
 

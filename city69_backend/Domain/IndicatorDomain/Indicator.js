@@ -1,25 +1,29 @@
 class Indicator {
-    constructor(id, name, sity, provider, isFromReport) {
+    constructor(id, city, index, date, provider, isFromReport, values) {
         this.id = id;
-        this.name = name;
-        this.sity = sity;
+        this.city = city;
+        this.index = index;
+        this.date = date;
         this.provider = provider;
         this.isFromReport = isFromReport;
+        this.values = values;
     }
 
     static modelToDomain = (model) => {
-        const { _id, name, sity, provider, isFromReport } = model;
-        const indicator = new this (_id, name, sity, provider, isFromReport);
+        const { _id, city, index, date, provider, isFromReport, values } = model;
+        const indicator = new this (_id, city, index, date, provider, isFromReport, values);
         return indicator;
     };
 
     toObject = () => {
         return {
             id: this.id,
-            name: this.name,
-            sity: this.sity,
+            city: this.city,
+            index: this.index,
+            date: this.date,
             provider: this.provider,
-            isFromReport: this.isFromReport
+            isFromReport: this.isFromReport,
+            values: this.values
         }
     }
 }
