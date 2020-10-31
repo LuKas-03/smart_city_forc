@@ -12,7 +12,7 @@ router.get('/gibdd', ((req, res) => {
 }))
 
 router.get('/parse', ((req, res) => {
-  const fsStram = fs.createReadStream('Сельский жилищный фонд.csv')
+  const fsStram = fs.createReadStream('Городской жилищный фонд.csv')
     .on('error', err => console.log(`[FILE READ ERROR] ${err}`));
     
     report_parser(fsStram, 'csv', (report) => report).then(
