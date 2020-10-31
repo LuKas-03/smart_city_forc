@@ -7,11 +7,15 @@ const withAuth = require('../middlewares/auth');
 const { getOne } = require('../database/models/User/UserRepository');
 
 // создание юзера
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
     const { login, password, name, surname, patronymic } = req.body;
     try {
-        const user = UserRepository.save(login, password, name, surname, patronymic);
-        res.json(user.toObject());
+        const user = await UserRepository.save(login, password, name, surname, patronymic);
+        console.log(user)
+        if(user.errorCode === 0) {
+            res.json(user);
+        }
+        else res.json(user.toObject());
     } catch(error) {
         next(error);
     }
@@ -40,7 +44,7 @@ router.post('/auth', async ( req, res, next ) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        const users = UserRepository.get();
+        const users = await UserRepository.get();
         const usersObjects = users.map(user => user.toObject());
         res.json(usersObjects);
     } catch(error) {
@@ -50,7 +54,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const user = UserRepository.getOne(req.params.id);
+        const user = await UserRepository.getOne(req.params.id);
         res.json(user.toObject());
     } catch(error) {
         next(error);
@@ -59,7 +63,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.delete('/:id', async(req, res, next) => {
     try {
-        const user = UserRepository.delete(req.params.id);
+        const user = await UserRepository.delete(req.params.id);
         res.json(user.toObject());
     } catch(error) {
         next(error);

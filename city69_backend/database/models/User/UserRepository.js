@@ -16,14 +16,14 @@ class UserRepository {
 
     static save = async (login, password, name, surname, patronymic, cities, role) => {
         try {
-            
-            const userModel = await UserModel.save({login, password, name, surname, patronymic, cities, role});
+            let userModel = new UserModel({ login, password, name, surname, patronymic, cities, role });
+            userModel = await userModel.save();
             return User.modelToDomain(userModel);
         } catch(error) {
+            console.log('[SAVE USER ERR]', error);
             if (error.name === 'MongoError' && error.code === 11000) {
                 return {errorCode: 0, message: 'уже существует'};
             }
-            console.log('[SAVE USER ERR]', error);
             throw error;
         }
     };
@@ -40,7 +40,7 @@ class UserRepository {
 
     static delete = async (id) => {
         try {
-            const userModel = await findByIdAndDelete(id);
+            const userModel = await UserModel.findByIdAndDelete(id);
             return User.modelToDomain(userModel);
         } catch(error) {
             console.log('[DELETE USER ERR]', error);

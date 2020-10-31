@@ -1,7 +1,7 @@
 
 class User {
     constructor(id, login, name, surname, partonymic, cities, role) {
-        this.id,
+        this.id = id,
         this.login = login;
         this.name = name;
         this.surname = surname;
