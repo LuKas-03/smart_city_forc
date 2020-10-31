@@ -28,6 +28,12 @@ const schema = new Schema({
         type: String,
         required: true,
     },
+    cities: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'City'
+        }
+    ],
     role: {
         type: String
     }
@@ -56,13 +62,16 @@ schema.pre('save', function (next) {
 
 
 schema.methods.isCorrectPassword = function (password, callback) {
-    bcrypt.compare(password, this.password, function(err, same) {
-        if(err) {
-            callback(err);
-        }
-        else {
-            callback(err, same);
-        }
+    const thisPassword = this.password;
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(password, thisPassword, function(err, same) {
+            if(err) {
+                reject(err);
+            }
+            else {
+                resolve(same);
+            }
+        })
     })
 }
 

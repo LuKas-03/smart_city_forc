@@ -1,22 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../database/models/User');
+const UserRepository = require('../database/models/User/UserRepository');
 const config = require('../config/config');
 const jwt = require('jsonwebtoken');
 const withAuth = require('../middlewares/auth');
+const { getOne } = require('../database/models/User/UserRepository');
 
 // создание юзера
 router.post('/', (req, res, next) => {
     const { login, password, name, surname, patronymic } = req.body;
     try {
-        const user = new User({ login, password, name, surname, patronymic });
-        user.save( function(err) {
-        if(err) {
-            console.log('[SAVE USER ERROR]', err)
-            res.status(500).json({error: 'пользователь уже существует'})
-        }
-        else res.json({ message: 'регистрация прошла успешно.' })
-        })
+        const user = UserRepository.save(login, password, name, surname, patronymic);
+        res.json(user.toObject());
     } catch(error) {
         next(error);
     }
@@ -26,35 +21,49 @@ router.post('/', (req, res, next) => {
 router.post('/auth', async ( req, res, next ) => {
     const { login, password } = req.body;
     try {
-        const user = await User.findOne( { login: login } );
-        console.log(user);
-        if( !user ) {
-            res.json( { error:'Неправильная почта или пароль' } );
+        const user = await UserRepository.auth(login, password);
+        console.log(user)
+        if(user.errorCode === 0) {
+            res.json(user);
         }
         else {
-            user.isCorrectPassword(password, function(err, same) {
-                if( err ) {
-                    console.log("[AUTH ERROR]", err)
-                    res.json( { error: 'что-то пошло не так...' } );
-                }
-                else if( !same ) {
-                    res.json( { error: 'неправильный логин или пароль' } );
-                }
-                else {
-                    const userObj = user.toObject();
-                    delete userObj.password;
-                    const payload = { userObj };
-                    const token = jwt.sign( payload, config.secret, {
-                        expiresIn: '7d'
-                    });
-                    res.cookie('token', token, { httpOnly: true } ).status(200).json(userObj);
-                }
-            })
+            const payload = user.toObject();
+            const token = jwt.sign( payload, config.secret, {
+                expiresIn: '7d'
+            });
+            res.cookie('token', token, { httpOnly: true } ).status(200).json(user.toObject());
         }
-
   } catch (error){
       next(error)
   }
+})
+
+router.get('/', async (req, res, next) => {
+    try {
+        const users = UserRepository.get();
+        const usersObjects = users.map(user => user.toObject());
+        res.json(usersObjects);
+    } catch(error) {
+        next(error);
+    }
+});
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        const user = UserRepository.getOne(req.params.id);
+        res.json(user.toObject());
+    } catch(error) {
+        next(error);
+    }
+});
+
+router.delete('/:id', async(req, res, next) => {
+    try {
+        const user = UserRepository.delete(req.params.id);
+        res.json(user.toObject());
+    } catch(error) {
+        next(error);
+    }
 })
 
 // выход
