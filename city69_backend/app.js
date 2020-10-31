@@ -7,7 +7,7 @@ const connectDatabase = require('./database/index');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const sitiesRouter = require('./routes/sities');
+const сitiesRouter = require('./routes/cities');
 const indicatorsRouter = require('./routes/indicators');
 const devRouter = require('./routes/dev');
 
@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/sities', sitiesRouter);
+app.use('/cities', сitiesRouter);
 app.use('/indicators', indicatorsRouter);
 
 app.use('/dev', devRouter); // test

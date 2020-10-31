@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const SityRepository = require('../database/models/Sity/SityRepository');
+const CityRepository = require('../database/models/Сity/СityRepository');
 
 
 // создание города
 router.post('/', async (req, res, next) => {
     const { name } = req.body;
     try {
-        const sity = await SityRepository.save(name);
-        console.log(sity)
-        if(sity.errorCode === 0) {
-            res.json(sity);
+        const city = await CityRepository.save(name);
+        console.log(city)
+        if(city.errorCode === 0) {
+            res.json(city);
         }
-        else res.json(sity.toObject());
+        else res.json(city.toObject());
     } catch(error) {
         next(error);
     }
@@ -21,9 +21,9 @@ router.post('/', async (req, res, next) => {
 // список всех городов
 router.get('/', async (req, res, next) => {
     try {
-        const sities = await SityRepository.get();
-        const sityObjects = sities.map(sity => sity.toObject());
-        res.json(sityObjects);
+        const cities = await CityRepository.get();
+        const cityObjects = cities.map(city => city.toObject());
+        res.json(cityObjects);
     } catch(error) {
         next(error);
     }
@@ -31,8 +31,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const sity = await SityRepository.getOne(req.params.id);
-        res.json(sity.toObject());
+        const city = await CityRepository.getOne(req.params.id);
+        res.json(city.toObject());
     } catch(error) {
         next(error);
     }
@@ -40,8 +40,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.delete('/:id', async(req, res, next) => {
     try {
-        const sity = await SityRepository.delete(req.params.id);
-        res.json(sity.toObject());
+        const city = await CityRepository.delete(req.params.id);
+        res.json(city.toObject());
     } catch(error) {
         next(error);
     }

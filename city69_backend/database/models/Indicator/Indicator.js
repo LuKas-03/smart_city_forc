@@ -9,7 +9,7 @@ const schema = new Schema({
     },
     sity: {
         type: Schema.Types.ObjectId,
-        ref: 'Sity'
+        ref: 'Сity'
     },
     provider: {
         type: Schema.Types.ObjectId,

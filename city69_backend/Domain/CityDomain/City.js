@@ -1,4 +1,4 @@
-class Sity {
+class City {
     constructor(id, name, index) {
         this.id = id;
         this.name = name;
@@ -7,8 +7,8 @@ class Sity {
 
     static modelToDomain = (model) => {
         const { _id, name, index } = model;
-        const sity = new this (_id, name, index);
-        return sity;
+        const city = new this (_id, name, index);
+        return city;
     };
 
     toObject = () => {
@@ -20,4 +20,4 @@ class Sity {
     }
 }
 
-module.exports = Sity;
+module.exports = City;
