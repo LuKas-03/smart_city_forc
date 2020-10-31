@@ -12,13 +12,17 @@ export const AuthPage = () => {
       <Header />
       <Header2>Вход в систему</Header2>
       <Label>Логин</Label>
-      <Input placeholder={"Ваш логин"}></Input>
+      <Input name="email" placeholder={"Ваш логин"}></Input>
       <Label>Пароль</Label>
 
-      <Input type="password" placeholder={"Введите пароль"}></Input>
+      <Input
+        name="password"
+        type="password"
+        placeholder={"Введите пароль"}
+      ></Input>
 
       <CheckBox> Оставаться в системе</CheckBox>
-      <Button>Войти в систему</Button>
+      <Button onClick="" >Войти в систему</Button>
     </Box>
   );
 };
@@ -42,7 +46,7 @@ const Input = styled.input`
   background: #ffffff;
   border-radius: 8px;
   border: 1px solid #fff;
-  
+
   outline: none;
   &:focus {
     border: 1px solid #0078e7;
@@ -50,4 +54,4 @@ const Input = styled.input`
     // box-shadow: 0px 1px 1px rgba(51, 154, 240, 0.1);
   }
 `;
-const Label = SmalText
+const Label = SmalText;
