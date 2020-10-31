@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Header } from "../components/Header";
 import styled from "styled-components";
 import background from "../background.svg";
 import { CheckBox } from "../components/CheckBox";
 import { Header2, SmalText } from "../styles";
 import { useHttp } from "../hooks/http.hook";
+import { AuthContext } from "../context/AuthContext";
+
 
 export const AuthPage = () => {
   const { request } = useHttp();
+  const auth = useContext(AuthContext);
+
 
   const [form, setForm] = useState({
     login: "",
