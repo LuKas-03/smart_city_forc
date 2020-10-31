@@ -12,7 +12,12 @@ const schema = new Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    population: {
+        type: Number,
+        required: true,
+        default: 0
     }
 })
 
-module.exports = Sity = mongoose.model('Sity', schema);
+module.exports = City = mongoose.model('City', schema);
