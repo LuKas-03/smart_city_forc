@@ -11,13 +11,16 @@ router.get('/gibdd', ((req, res) => {
   );
 }))
 
-router.get('/parse', ((req, res) => {
+router.post('/parse', ((req, res) => {
+  const { provider, city } = req.body;
+
   const fsStram = fs.createReadStream('Городской жилищный фонд.csv')
     .on('error', err => console.log(`[FILE READ ERROR] ${err}`));
     
     report_parser(fsStram, 'csv', (report) => report).then(
-    result => res.send(report_processor('БЛАГОУСТРОЙСТВО ЖИЛИЩНОГО ФОНДА', result))
-  );
-}))
+    result => {
+      report_processor(provider, city, result).then(result => res.send(result));
+    });
+}));
 
 module.exports = router;

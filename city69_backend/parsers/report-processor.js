@@ -1,29 +1,35 @@
-const processor = function(indicator_name, report) {
-    const coefficients = {
-        'водопровод': 0.2,
-        'водоотведение': 0.2,
-        'отопление': 0.2,
-        'газ': 0.2,
-        'горячее водоснабжение': 0.2
-    };
+const ProviderRepository = require('../database/models/Indicator/IndicatorProviderRepository');
+const IndicatorRepository = require('../database/models/Indicator/IndicatorRepository');
+const CityRepository = require('../database/models/Сity/СityRepository');
+const dateParser = require('./date-parser');
 
-    const indexes = report.map(line => index_calc(line, coefficients));
+const processor = async function(indicatorProviderId, cityId, report) {
+    const provider = await ProviderRepository.getOne(indicatorProviderId);
+    const city = await CityRepository.getOne(cityId);
+    const fields = provider.parameters;
+
+    const indexes = report.map(line => index_calc(line, fields));
+
+    for (const item of indexes) {
+        await IndicatorRepository.save(city.id, item.index, item.date, provider.id, false, item.values);
+    }
+
     return {
-        indicator_name: indicator_name,
+        indicator_name: provider.name,
         indexes: indexes
     };
 }
 
-const index_calc = function(line, coefficients) {
-    let accumulate = 0;
-    Object.keys(coefficients).forEach(item => {
-        const value = line[item];
-        if (value) accumulate += coefficients[item] * value;
+const index_calc = function(line, fields) {
+    const values = [];
+    fields.forEach(item => {
+        values.push(parseFloat(line[item]));
     })
     
     return {
-        date: line['дата'],
-        index: accumulate.toFixed(2)
+        date: dateParser(line['дата']),
+        index: (values.reduce((a, b) => a + b, 0) / fields.length).toFixed(2),
+        values: values
     };
 }
 
