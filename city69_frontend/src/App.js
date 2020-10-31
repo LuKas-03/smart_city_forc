@@ -6,8 +6,10 @@ import { AuthContext } from "./context/AuthContext";
 import { useAuth } from './hooks/auth.hook';
 
 export const App = () => {
-  const routes = useRoutes(false);
   const { token, login, logout, userId } = useAuth()
+  const isAuthenticated = !!token
+  const routes = useRoutes(isAuthenticated);
+
 
 
   return (
@@ -26,8 +28,6 @@ export const App = () => {
     </AuthContext.Provider>
   );
 };
-
-// ReactDOM.render(<App />, document.getElementById("root"));
 
 const Box = styled.div`
   // padding:20px 55px ;
