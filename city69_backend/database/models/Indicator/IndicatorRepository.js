@@ -1,5 +1,4 @@
 const IndicatorModel = require('./Indicator');
-const IndicatorProviderModel = require('./IndicatorProvider');
 const Indicator = require('../../../Domain/IndicatorDomain/Indicator');
 
 
@@ -25,6 +24,19 @@ class IndicatorRepository {
             if (error.name === 'MongoError' && error.code === 11000) {
                 return {errorCode: 0, message: 'уже существует'};
             }
+            throw error;
+        }
+    };
+
+    static getLastDate = async (city, provider) => {
+        try {
+            return await IndicatorModel
+                .find({ city, provider })
+                .sort({ date: -1 })
+                .limit(1);
+
+        } catch(error) {
+            console.log(error);
             throw error;
         }
     };

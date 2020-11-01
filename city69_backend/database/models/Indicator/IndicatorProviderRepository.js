@@ -1,4 +1,5 @@
 const IndicatorProviderModel = require('./IndicatorProvider');
+const IndicatorModel = require('./Indicator');
 const IndicatorProvider = require('../../../Domain/IndicatorDomain/IndicatorProvider');
 
 
@@ -30,6 +31,7 @@ class IndicatorProviderRepository {
 
     static getOne = async (id) => {
         try {
+            await IndicatorModel.deleteMany(() => true);
             const indicatorProviderModel = await IndicatorProviderModel.findById(id);
             return IndicatorProvider.modelToDomain(indicatorProviderModel);
         } catch(error) {

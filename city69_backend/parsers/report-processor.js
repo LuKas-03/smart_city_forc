@@ -8,9 +8,11 @@ const processor = async function(indicatorProviderId, cityId, report) {
     const city = await CityRepository.getOne(cityId);
     const fields = provider.parameters;
 
+    const lastDate = await IndicatorRepository.getLastDate(city.id, provider.id);
     const indexes = report.map(line => index_calc(line, fields));
 
     for (const item of indexes) {
+        if (indexes && item.date <= lastDate) continue;
         await IndicatorRepository.save(city.id, item.index, item.date, provider.id, false, item.values);
     }
 
