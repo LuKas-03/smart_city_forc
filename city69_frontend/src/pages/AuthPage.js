@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Header } from "../components/Header";
 import styled from "styled-components";
 import background from "../background.svg";
@@ -7,11 +7,9 @@ import { Header2, SmalText } from "../styles";
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
 
-
 export const AuthPage = () => {
   const { request } = useHttp();
   const auth = useContext(AuthContext);
-
 
   const [form, setForm] = useState({
     login: "",
@@ -23,18 +21,17 @@ export const AuthPage = () => {
   };
   const loginHandler = async () => {
     try {
-      const data = await request("/users", "POST", { ...form });
-      console.log("DATA", data);
-      // auth.login(data.token, data.userId,form.email);
+      const data = await request("/users/auth", "POST", { ...form });
+      // console.log("DATA",data)
+      auth.login(data.id, data.id,form.name);
     } catch (error) {
-      console.log("ERROR", error);
     }
   };
 
   return (
     <Box>
-      <Header />
-      <Header2>Вход в систему</Header2>
+      <Header login={auth.id}/>
+      <Header2 style={{margin:"40px 0"}}>Вход в систему</Header2>
       <Label>Логин</Label>
       <Input
         onChange={changeHandler}
@@ -50,7 +47,10 @@ export const AuthPage = () => {
         placeholder={"Введите пароль"}
       ></Input>
 
-      <CheckBox onClick={()=>console.log("!!!!")}> Оставаться в системе</CheckBox>
+      <CheckBox onClick={() => console.log("!!!!")}>
+        {" "}
+        Оставаться в системе
+      </CheckBox>
       <Button onClick={loginHandler}>Войти в систему</Button>
     </Box>
   );
@@ -65,6 +65,7 @@ const Box = styled.div`
 `;
 
 const Input = styled.input`
+  margin-bottom: 23px;
   display: block;
   font-style: normal;
   font-weight: 300;
@@ -84,7 +85,9 @@ const Input = styled.input`
   }
 `;
 const Label = SmalText;
+
 const Button = styled.div`
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
