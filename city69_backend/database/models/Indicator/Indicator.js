@@ -25,7 +25,7 @@ const schema = new Schema({
         required: true
     },
     values: {
-        type: Boolean
+        type: [Number]
     }
 })
 
