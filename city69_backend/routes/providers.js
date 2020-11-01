@@ -5,11 +5,12 @@ const ProviderRepository = require('../database/models/Indicator/IndicatorProvid
 
 // example:
 // { "name": "Благоустройство жилищного фонда",
-//   "parameters": ["водопровод", "отопление", "газ"] }
+//   "parameters": ["водопровод", "отопление", "газ"] 
+//    "subgroup_id: id подгруппы"}
 router.post('/', async (req, res, next) => {
-    const { name, url, port, parameters, formula } = req.body;
+    const { name, url, port, parameters, formula, subgroup_id } = req.body;
     try {
-        const provider = await ProviderRepository.save(name, url, port, parameters, formula);
+        const provider = await ProviderRepository.save(name, url, port, parameters, formula, subgroup_id);
         if(provider.errorCode === 0) {
             res.json(provider);
         }

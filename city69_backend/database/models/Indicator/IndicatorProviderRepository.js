@@ -14,9 +14,9 @@ class IndicatorProviderRepository {
         }
     };
 
-    static save = async (name, url, port, parameters, formula) => {
+    static save = async (name, url, port, parameters, formula, subgroup_id) => {
         try {
-            let indicatorProviderModel = new IndicatorProviderModel({ name, url, port, parameters, formula });
+            let indicatorProviderModel = new IndicatorProviderModel({ name, url, port, parameters, formula, subgroup_id });
             indicatorProviderModel = await indicatorProviderModel.save();
             return IndicatorProvider.modelToDomain(indicatorProviderModel);
         } catch(error) {

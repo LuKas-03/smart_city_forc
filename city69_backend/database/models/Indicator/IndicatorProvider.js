@@ -18,6 +18,10 @@ const schema = new Schema({
     },
     formula: {
         type: String
+    },
+    subgroup_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Subgroup'
     }
 });
 

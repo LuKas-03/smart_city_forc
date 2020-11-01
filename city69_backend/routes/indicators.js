@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const IndicatorRepository = require('../database/models/Indicator/IndicatorRepository');
+const IndicatorGroup = require('../database/models/Indicator/IndicatorGroup');
+const IndicatorSubGroup = require('../database/models/Indicator/IndicatorSubgroup');
+const IndicatorProvider = require('../database/models/Indicator/IndicatorProvider');
+const Indicator = require('../database/models/Indicator/Indicator');
 const stat_gibdd = require('../integrations/stat_gibdd');
 
 
@@ -27,14 +31,64 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
-    try {
-        const indicator = await IndicatorRepository.getOne(req.params.id);
-        res.json(indicator.toObject());
-    } catch(error) {
-        next(error);
+router.get('/group', async (req, res, next) => {
+    const groups = await IndicatorGroup.find({city_id: req.query.city_id}).lean();
+    for(let group of groups) {
+        let groupIndex = 0;
+        
+        let subgroups = await IndicatorSubGroup.find({group_id: group._id});
+        for(let subgroup of subgroups) {
+            if(subgroup.name) {
+                let indicatorProvs = await IndicatorProvider.find({subgroup_id: subgroup._id});
+                let subgroupIndex = 0;
+
+                for(let indicatorProv of indicatorProvs) {
+                    let indicator = (await Indicator.find({provider: indicatorProv._id}).sort([['date', -1]]))[0];
+                    console.log('GROUPS', indicator);
+                    subgroupIndex = indicator.index;
+                }
+                groupIndex = subgroupIndex;
+            }
+        }
+        group.index = groupIndex;
     }
-});
+    res.json(groups);
+})
+
+router.get('/subgroup', async (req, res, next) => {
+    const subgroups = await IndicatorSubGroup.find({group_id: req.query.group_id}).lean();
+    console.log(subgroups);
+        for(let subgroup of subgroups) {
+            if(subgroup.name) {
+                let indicatorProvs = await IndicatorProvider.find({subgroup_id: subgroup._id});
+                let subgroupIndex = 0;
+
+                for(let indicatorProv of indicatorProvs) {
+                    let indicator = (await Indicator.find({provider: indicatorProv._id}).sort([['date', -1]]))[0];
+                    console.log('GROUPS', indicator);
+                    subgroupIndex = indicator.index;
+                }
+                subgroup.index = subgroupIndex;
+            }
+        }
+    res.json(subgroups);
+})
+
+router.get('/history', async (req, res, next) => {
+    let indicatorProv = await IndicatorProvider.findOne({subgroup_id: req.query.subgroup_id});
+
+        let indicators = await Indicator.find({provider: indicatorProv._id}).sort([['date', -1]]);
+    res.json(indicators);
+})
+
+// router.get('/:id', async (req, res, next) => {
+//     try {
+//         const indicator = await IndicatorRepository.getOne(req.params.id);
+//         res.json(indicator.toObject());
+//     } catch(error) {
+//         next(error);
+//     }
+// });
 
 router.delete('/:id', async(req, res, next) => {
     try {
@@ -44,5 +98,7 @@ router.delete('/:id', async(req, res, next) => {
         next(error);
     }
 })
+
+
 
 module.exports = router;
