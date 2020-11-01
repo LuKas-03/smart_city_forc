@@ -6,7 +6,7 @@ import { CityInfoPage } from "./pages/CityInfoPage";
 import { CityInfoDetails } from './pages/CityInfoDetails';
 
 export const useRoutes = (isAuthenticated) => {
-  if (isAuthenticated = true) {
+  if (isAuthenticated=true) {
     return (
       <Switch>
         <Route path="/selectCity" exact>

@@ -3,14 +3,15 @@ import styled from "styled-components";
 import house from "../house.svg";
 import account from "../account.svg"
 import { Header4 } from "../styles";
-export const Header = () => {
+export const Header = (props) => {
+  console.log("PROPS",props)
   return (
     <Box>
       <Title>
         <Symbol />
         <Header4>ГОРОД89</Header4>
       </Title>
-      <Account>
+      <Account visible={{props}}>
         <Name></Name>
         <Photo></Photo>
       </Account>
@@ -38,7 +39,7 @@ const Title = styled.div`
   display: flex;
 `;
 const Account = styled.div`
-  display: flex;
+  display: ${props=>props.visible?"flex":"none"};
 `;
 const Name = styled.div`
   display: flex;
