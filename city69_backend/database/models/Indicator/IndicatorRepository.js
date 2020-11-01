@@ -41,6 +41,16 @@ class IndicatorRepository {
         }
     };
 
+    static getByCityAndProvider = async (city, provider) => {
+        try {
+            return await IndicatorModel.find({ city, provider });
+
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+    };
+
     static getOne = async (id) => {
         try {
             const indicatorModel = await IndicatorModel.findById(id);
