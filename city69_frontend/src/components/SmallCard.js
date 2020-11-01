@@ -3,17 +3,24 @@ import styled from 'styled-components';
 import { CircleProgress } from './CircleProgress';
 import { Header4 } from '../styles';
 
-export const SmallCard = () => {
+export const SmallCard = (props) => {
+    const {title, progress} = props;
+    let color = '#27AE60';
+    color = progress < 60 ? '#F2C94C' : color;
+    color = progress < 40 ? '#EB5757' : color;
+
     return (
         <Container>
             <Box>
                 <Header4>
-                    Безопасность
+                    {title}
                 </Header4>
                 <Left>
                     <CircleProgress
                         radius = {51}
                         stroke = {10}
+                        progress = {progress}
+                        firstColor = { color }
                     />
                     <BoxArrow>
                         <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">

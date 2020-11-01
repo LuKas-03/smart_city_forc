@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SmallCard } from '../components/SmallCard';
 import { Line } from 'react-chartjs-2';
 import { ButtonSelector } from '../components/ButtonSelector';
 import { Header } from '../components/Header';
 import { SmalText, LinkStyled, DisplayRowSB, Header2, Header4, Header3, Header5 } from '../styles';
+import { connect } from 'react-redux';
+import actions from "../actions";
 
-const data = {
+let data = {
     labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'],
     datasets: [
       {
@@ -27,7 +29,6 @@ const data = {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: [10, 20, 30, 1000, 50]
       }
     ]
   };
@@ -36,7 +37,40 @@ const data = {
     {}, {}, {} ,{}, {}, {}
 ]
 
-export const CityInfoDetails = (props) => {
+const CityInfoDetails = (props) => {
+    const { subgroups, history, match, loadSubgroups, loadHistory } = props;
+
+    const [labels, setLabels] = useState([]);
+    const [indicators, setIndicators] = useState([]);
+
+    useEffect(() => {
+        loadSubgroups(match.params.id);
+    }, [match.params.id])
+
+    useEffect(() => {
+        if(subgroups[0]) {
+            loadHistory(subgroups[0]._id);
+        }
+    }, [subgroups.length])
+
+    useEffect(() => {
+        if(history.length) {
+            const labels = history.map(elem => {
+                let date = new Date(elem.date);
+                return `${date.getMonth() + 1}.${date.getFullYear()}`;
+            })
+            setLabels(labels);
+
+            console.log(labels);
+            const data = history.map(elem => +elem.index);
+            console.log(data.reverse())
+            setIndicators(data);
+        }
+    }, [history.length])
+
+
+  data.labels = labels;
+  data.datasets[0].data = indicators;
   return (
     <Box>
         <Header />
@@ -74,8 +108,12 @@ export const CityInfoDetails = (props) => {
             <StatsContainer>
                 <Cards>
                     {
-                        criteria.map(cr =>
-                             <SmallCard/>
+                        subgroups && subgroups.map(cr =>
+                             <SmallCard
+                                key= {cr._id}
+                                progress = {cr.index}
+                                title = {cr.name}
+                             />
                         )
                     }
                 </Cards>
@@ -90,7 +128,21 @@ export const CityInfoDetails = (props) => {
   );
 };
 
+const mapStateToProps = ({ city }) => ({
+    subgroups: city.subgroups,
+    history: city.history,
+})
 
+const mapDispatchToProps = dispatch => ({
+    loadSubgroups: (payload) => {
+        dispatch(actions.cityLoadSubgroups(payload));
+    },
+    loadHistory: (payload) => {
+        dispatch(actions.cityLoadHistory(payload));
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CityInfoDetails);
 
 const Box = styled.div`
   background-color: #F5F6FA;
@@ -120,7 +172,7 @@ const Cards = styled.div`
 
 const Graph = styled.div`
     margin-left: 43px;
-    max-height: 60vh;
+    height: 60vh;
     width: 100%;
     background-color: #ffffff;
     border-radius: 10px;

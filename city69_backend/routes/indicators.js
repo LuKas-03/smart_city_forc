@@ -58,6 +58,7 @@ router.get('/group', async (req, res, next) => {
 })
 
 router.get('/subgroup', async (req, res, next) => {
+    const group = await IndicatorGroup.findOne({_id: req.query.group_id});
     const subgroups = await IndicatorSubGroup.find({group_id: req.query.group_id}).lean();
     console.log(subgroups);
         for(let subgroup of subgroups) {
@@ -71,6 +72,7 @@ router.get('/subgroup', async (req, res, next) => {
                     subgroupIndex = indicator.index;
                 }
                 subgroup.index = subgroupIndex;
+                subgroup.name_group = group.name;
             }
         }
     res.json(subgroups);

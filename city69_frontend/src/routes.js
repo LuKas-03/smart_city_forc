@@ -1,24 +1,21 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { AuthPage } from "./pages/AuthPage";
+import { connect } from 'react-redux';
+import AuthPage from "./pages/AuthPage";
 import { SelectCityPage } from "./pages/SelectCityPage";
-import { CityInfoPage } from "./pages/CityInfoPage";
-import { CityInfoDetails } from './pages/CityInfoDetails';
+import CityInfoPage from "./pages/CityInfoPage";
+import CityInfoDetails from './pages/CityInfoDetails';
 
-export const useRoutes = (isAuthenticated) => {
-  if (isAuthenticated=true) {
+export const useRoutes = ({isAuth}) => {
+  console.log('isAuth');
+  if (isAuth) {
     return (
       <Switch>
-        <Route path="/selectCity" exact>
-          <SelectCityPage />
+        <Route exact path="/cityInfo" component = {CityInfoPage}>
         </Route>
-        <Route exact path="/cityInfo">
-          <CityInfoPage />
+        <Route path="/cityInfo/:id" component = {CityInfoDetails}>
         </Route>
-        <Route path="/cityInfo/:id">
-          <CityInfoDetails/>
-        </Route>
-        <Redirect exact to="/selectCity" />
+        <Redirect exact to="/cityInfo" />
       </Switch>
     );
   }
@@ -31,3 +28,9 @@ export const useRoutes = (isAuthenticated) => {
     </Switch>
   );
 };
+
+const mapStateToProps = ({user}) => ({
+  isAuth: user.isAuth,
+})
+
+export default connect(mapStateToProps)(useRoutes);

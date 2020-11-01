@@ -7,7 +7,7 @@ export const CircleProgress = props => {
 
     radius = radius || 50;
     stroke = stroke || 10;
-    progress = progress || 75;
+    progress = progress;
     firstColor = firstColor || 'blue';
     secondColor = secondColor || '#D2D6E2';
     fontSize = fontSize || 18;
@@ -86,7 +86,7 @@ export const CircleProgress = props => {
                     fontSize: `${fontSize}px`,
                     color: firstColor,
                 } }>
-                75
+                {progress}
             </Header4>
         </Number>
         </Box>

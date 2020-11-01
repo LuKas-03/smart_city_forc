@@ -4,33 +4,29 @@ import styled from "styled-components";
 import background from "../background.svg";
 import { CheckBox } from "../components/CheckBox";
 import { Header2, SmalText } from "../styles";
-import { useHttp } from "../hooks/http.hook";
-import { AuthContext } from "../context/AuthContext";
+import { connect } from 'react-redux';
+import actions from '../actions';
 
-export const AuthPage = () => {
-  const { request } = useHttp();
-  const auth = useContext(AuthContext);
+const AuthPage = (props) => {
 
   const [form, setForm] = useState({
     login: "",
     password: "",
   });
+
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
     console.log(form);
   };
+
   const loginHandler = async () => {
-    try {
-      const data = await request("/users/auth", "POST", { ...form });
-      // console.log("DATA",data)
-      auth.login(data.id, data.id,form.name);
-    } catch (error) {
-    }
+    const { auth } = props;
+    console.log('AUTH', form)
+    auth(form);
   };
 
   return (
     <Box>
-      <Header login={auth.id}/>
       <Header2 style={{margin:"40px 0"}}>Вход в систему</Header2>
       <Label>Логин</Label>
       <Input
@@ -55,6 +51,15 @@ export const AuthPage = () => {
     </Box>
   );
 };
+
+const mapDispatchToProps = dispatch => ({
+  auth: (payload) => {
+    dispatch(actions.userAuthenticate(payload));
+  }
+})
+
+export default connect(null, mapDispatchToProps)(AuthPage);
+
 const Box = styled.div`
   background-image: url(${background});
   height: 100vh;

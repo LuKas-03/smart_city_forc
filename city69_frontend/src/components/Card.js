@@ -6,16 +6,14 @@ import { Header4, SmalText, Text, LinkStyled } from '../styles';
 
 export const Card = props => {
     let { title, lowСriterion, link, progress} = props;
+    console.log('hellooooo')
     progress = +progress;
-
-    progress = 70;
 
     let color = '#27AE60';
     color = progress < 60 ? '#F2C94C' : color;
     color = progress < 40 ? '#EB5757' : color;
 
-    title = 'Жилье и прилегающие пространтсва'
-    lowСriterion = 'Современность и актуальdghgfhdfghdfghdность'
+    lowСriterion = 'Современность и актуальность'
 
     return (
         <Container>

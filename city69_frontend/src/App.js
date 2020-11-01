@@ -1,14 +1,15 @@
 import React from "react";
-import { useRoutes } from "./routes";
+import Routes from "./routes";
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "./context/AuthContext";
 import { useAuth } from './hooks/auth.hook';
+import { Provider } from 'react-redux';
+import store from './configureStore'
 
 export const App = () => {
   const { token, login, logout, userId } = useAuth()
   const isAuthenticated = !!token
-  const routes = useRoutes(isAuthenticated);
 
 
 
@@ -22,9 +23,11 @@ export const App = () => {
         isAuthenticated,
       }}
     >
-      <Box>
-        <Router>{routes}</Router>
-      </Box>
+      <Provider store = { store }>
+        <Box>
+          <Router><Routes/></Router>
+        </Box>
+      </Provider>
     </AuthContext.Provider>
   );
 };

@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Card } from '../components/Card';
 import { ButtonSelector } from '../components/ButtonSelector';
 import { Header } from '../components/Header';
 import { SmalText, LinkStyled, DisplayRowSB, Header2, Header4, Header3, Header5 } from '../styles';
+import { connect } from 'react-redux';
+import actions from "../actions";
 
 const indicators = [
     {id: '1'}, {id: '2'}, {id: '3'} ,{id: '4'}, {id: '5'}, {id: '6'}
 ]
 
-export const CityInfoPage = () => {
+const CityInfoPage = (props) => {
+  const {  user, city } = props;
+
+    useEffect(() => {
+        props.loadCity(user.cities[0]);
+    },[user._id])
+
+
+    console.log(city)
   return (
     <Box>
         <Header />
@@ -19,13 +29,13 @@ export const CityInfoPage = () => {
                 <svg style = { { marginRight: '10px', transform: 'rotate(-180deg)' } } width="28" height="8" viewBox="0 0 28 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M27.3536 4.35355C27.5488 4.15829 27.5488 3.84171 27.3536 3.64645L24.1716 0.464466C23.9763 0.269204 23.6597 0.269204 23.4645 0.464466C23.2692 0.659728 23.2692 0.976311 23.4645 1.17157L26.2929 4L23.4645 6.82843C23.2692 7.02369 23.2692 7.34027 23.4645 7.53553C23.6597 7.7308 23.9763 7.7308 24.1716 7.53553L27.3536 4.35355ZM0 4.5H27V3.5H0L0 4.5Z" fill="#006ACC"/>
                 </svg>
-                {`Критерии оценки`}
+                {`Выбор Городов`}
             </SmalText>
         </LinkStyled>
         <DisplayRowSB>
-            <Header2>Салехард</Header2>
+            <Header2> {city.name}  </Header2>
             <DisplayRowSB>
-                <Header2 style = { { color: '#00A2FF' } }>47</Header2>
+                <Header2 style = { { color: '#00A2FF' } }>68</Header2>
                 <Header4 style = { { marginBottom: '2px' } }>/ 100</Header4>
             </DisplayRowSB>
         </DisplayRowSB>
@@ -47,10 +57,14 @@ export const CityInfoPage = () => {
 
         <IndicatorsContainer>
             {
-                indicators.map(indicator => 
+                city.groups && city.groups.map(group => 
+                    group.name ?
                     <Card 
-                        link = { `/cityInfo/${indicator.id}` }
-                    />    
+                        key = {group._id}
+                        link = { `/cityInfo/${group._id}` }
+                        title = { group.name }
+                        progress = {group.index}
+                    /> : null  
                 )
             }
         </IndicatorsContainer>
@@ -58,6 +72,19 @@ export const CityInfoPage = () => {
     </Box>
   );
 };
+
+const mapStateToProps = ({user, city}) => ({
+    user: user.user,
+    city: city.city,
+});
+
+const mapDispatchToProps = dispatch => ({
+    loadCity: (payload) => {
+        dispatch(actions.cityLoad(payload));
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CityInfoPage);
 
 const Box = styled.div`
   background-color: #F5F6FA;
