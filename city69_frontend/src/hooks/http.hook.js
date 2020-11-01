@@ -10,6 +10,7 @@ export const useHttp = () => {
           headers["Content-Type"] = "application/json";
         }
         const response = await fetch(url, { method, body, headers });
+        console.log(response)
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message || "что-то пошло не так в http hook");
