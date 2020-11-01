@@ -9,9 +9,9 @@ const { getOne } = require('../database/models/User/UserRepository');
 // создание юзера
 router.post('/', async (req, res, next) => {
     console.log("REQUEST",req.body)
-    const { login, password, name, surname, patronymic } = req.body;
+    const { login, password, name, surname, patronymic, cities } = req.body;
     try {
-        const user = await UserRepository.save(login, password, name, surname, patronymic);
+        const user = await UserRepository.save(login, password, name, surname, patronymic, cities);
         console.log(user)
         if(user.errorCode === 0) {
             res.json(user);
@@ -25,6 +25,7 @@ router.post('/', async (req, res, next) => {
 // аутентификацмя
 router.post('/auth', async ( req, res, next ) => {
     const { login, password } = req.body;
+    console.log(login, password)
     try {
         const user = await UserRepository.auth(login, password);
         console.log(user)

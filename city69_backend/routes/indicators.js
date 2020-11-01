@@ -5,6 +5,7 @@ const IndicatorGroup = require('../database/models/Indicator/IndicatorGroup');
 const IndicatorSubGroup = require('../database/models/Indicator/IndicatorSubgroup');
 const IndicatorProvider = require('../database/models/Indicator/IndicatorProvider');
 const Indicator = require('../database/models/Indicator/Indicator');
+const City = require('../database/models/Сity/СityRepository');
 const stat_gibdd = require('../integrations/stat_gibdd');
 
 
@@ -32,6 +33,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/group', async (req, res, next) => {
+    const city = await City.getOne(req.query.city_id);
     const groups = await IndicatorGroup.find({city_id: req.query.city_id}).lean();
     for(let group of groups) {
         let groupIndex = 0;
@@ -52,7 +54,7 @@ router.get('/group', async (req, res, next) => {
         }
         group.index = groupIndex;
     }
-    res.json(groups);
+    res.json({...city.toObject(), groups});
 })
 
 router.get('/subgroup', async (req, res, next) => {
