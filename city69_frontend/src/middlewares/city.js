@@ -44,3 +44,18 @@ export const loadHistory = store => next => action => {
     }
     next(action);
 }
+
+export const sendFile= store => next => action => {
+    if(action.type === CITY.LOAD_HISTORY) {
+        console.log(action.payload)
+        fetch(`/upload/5f9e1825d2c4243ba05fd0b9/5f9e17d0d2c4243ba05fd0ac`, {
+            method: 'POST',
+            body: action.payload
+        })
+        .then((res) => {
+            store.dispatch(actions.cityLoadHistoryResponse(res));
+        })
+        .catch(error => console.log(error));
+    }
+    next(action);
+}

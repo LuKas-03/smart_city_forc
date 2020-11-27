@@ -4,7 +4,8 @@ export const LOAD_SUBGROUPS = '@city/LOAD_SUBGROUPS';
 export const LOAD_SUBGROUPS_RESPONSE = '@city/LOAD_SUBGROUPS_RESPONSE';
 export const LOAD_HISTORY = '@city/LOAD_HISTORY';
 export const LOAD_HISTORY_RESPONSE = '@city/LOAD_HISTORY_RESPONSE';
-
+export const SEND_FILE = '@/city/SEND_FILE';
+export const SEND_FILE_RESPONSE = '@/city/SEND_FILE_RESPONSE';
 
 const initalState = {
     city: {},

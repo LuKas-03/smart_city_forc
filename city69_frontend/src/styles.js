@@ -78,3 +78,11 @@ export const DisplayRowSB = styled.div`
   justify-content: space-between;
   align-items: flex-end;
 `;
+
+export const Elem = styled.div`
+  //font-family: SF UI Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+`;

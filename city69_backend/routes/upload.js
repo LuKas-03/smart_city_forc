@@ -11,6 +11,7 @@ const upload_middleware = multer({dest: uloadsFolder})
 router.post('/:provider/:city', upload_middleware.single("report"), ((req, res) => {
   const provider= req.params.provider;
   const city =  req.params.city;
+  console.log(req.body)
   const filePatch = uloadsFolder + '\\' + req.file.filename;
 
   const fsStram = fs.createReadStream(filePatch)

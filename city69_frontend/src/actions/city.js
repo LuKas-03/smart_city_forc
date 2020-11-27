@@ -30,3 +30,13 @@ export const cityLoadHistoryResponse = payload => ({
     payload: payload,
     type: CITY.LOAD_HISTORY_RESPONSE
 })
+
+export const citySendFile = payload => ({
+    payload: payload,
+    type: CITY.SEND_FILE
+})
+
+export const citySendFileResponse = payload => ({
+    payload: payload,
+    type: CITY.SEND_FILE_RESPONSE
+})

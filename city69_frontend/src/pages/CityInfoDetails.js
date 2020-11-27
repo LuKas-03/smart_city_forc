@@ -4,7 +4,7 @@ import { SmallCard } from '../components/SmallCard';
 import { Line } from 'react-chartjs-2';
 import { ButtonSelector } from '../components/ButtonSelector';
 import { Header } from '../components/Header';
-import { SmalText, LinkStyled, DisplayRowSB, Header2, Header4, Header3, Header5 } from '../styles';
+import { SmalText, LinkStyled, DisplayRowSB, Header2, Header4, Header3, Header5, Elem } from '../styles';
 import { connect } from 'react-redux';
 import actions from "../actions";
 
@@ -38,10 +38,12 @@ let data = {
 ]
 
 const CityInfoDetails = (props) => {
-    const { subgroups, history, match, loadSubgroups, loadHistory } = props;
+    const { subgroups, history, match, loadSubgroups, loadHistory, sendFile } = props;
 
     const [labels, setLabels] = useState([]);
     const [indicators, setIndicators] = useState([]);
+
+    let fileInput = React.createRef();
 
     useEffect(() => {
         loadSubgroups(match.params.id);
@@ -71,6 +73,21 @@ const CityInfoDetails = (props) => {
 
   data.labels = labels;
   data.datasets[0].data = indicators;
+
+  const sendFileHandler = () => {
+    if(fileInput.current.files[0]) {
+
+        const extension = fileInput.current.files[0].name.split('.');
+        if(extension[extension.length - 1] === 'csv') {
+
+            let formData = new FormData();
+            formData.append('report', fileInput.current.files[0]);
+            sendFile(formData);
+        } else alert('неправильный формат файла');
+    } else {
+        alert('нет файлов')
+    }
+  }
   return (
     <Box>
         <Header />
@@ -86,7 +103,7 @@ const CityInfoDetails = (props) => {
             <DisplayRowSB>
                 <Header2>Жилье и прилегающие пространства</Header2>
                 <DisplayRowSB>
-                    <Header2 style = { { color: '#00A2FF' } }>47</Header2>
+                    <Header2 style = { { color: '#00A2FF' } }>68</Header2>
                     <Header4 style = { { marginBottom: '2px' } }>/ 100</Header4>
                 </DisplayRowSB>
             </DisplayRowSB>
@@ -95,16 +112,39 @@ const CityInfoDetails = (props) => {
                 <Header5>ямало-ненецкий автономный округ</Header5>
                 <Header5>рейтинг пространства</Header5>
             </DisplayRowSB>
-            <ButtonSelector>
-                Текущий момент
-            </ButtonSelector>
-            <ButtonSelector 
-                color = '#13161F'
-                background = 'rgba(211, 214, 223, 0.33)'
-                style = {{ marginLeft: '25px' }}
-            >
-                Сравнить статистику
-            </ButtonSelector>
+            <DisplayRowSB>
+                <div style = {{display:'flex'}}>
+                    <ButtonSelector>
+                        Текущий момент
+                    </ButtonSelector>
+                    <ButtonSelector 
+                        color = '#13161F'
+                        background = 'rgba(211, 214, 223, 0.33)'
+                        style = {{ marginLeft: '25px' }}
+                    >
+                        Сравнить статистику
+                    </ButtonSelector>
+                </div>
+                <div style = {{display: 'flex'}}>
+                    <StyledLabel>
+                        <input style = {{display: 'none'}}id='input_file' type='file' ref= {fileInput} />
+
+                        <svg width="24" style = {{transform: 'rotate(180deg)'}} height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#212532" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 10L12 15L17 10" stroke="#212532" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15V3" stroke="#212532" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </StyledLabel>
+                    <ButtonSelector 
+                            color = '#13161F'
+                            background = 'rgba(211, 214, 223, 0.33)'
+                            style = {{ marginLeft: '25px' }}
+                            onClick = {sendFileHandler}
+                    >
+                        Отправить
+                    </ButtonSelector>
+                </div>
+            </DisplayRowSB>
             <StatsContainer>
                 <Cards>
                     {
@@ -139,6 +179,9 @@ const mapDispatchToProps = dispatch => ({
     },
     loadHistory: (payload) => {
         dispatch(actions.cityLoadHistory(payload));
+    },
+    sendFile: (payload) => {
+        dispatch(actions.citySendFile(payload));
     }
 })
 
@@ -176,4 +219,9 @@ const Graph = styled.div`
     width: 100%;
     background-color: #ffffff;
     border-radius: 10px;
+`;
+
+const StyledLabel = styled.label`
+    display: flex;
+    align-items: center;
 `;
