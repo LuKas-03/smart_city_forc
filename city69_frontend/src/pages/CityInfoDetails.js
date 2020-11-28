@@ -7,6 +7,7 @@ import { Header } from '../components/Header';
 import { SmalText, LinkStyled, DisplayRowSB, Header2, Header4, Header3, Header5, Elem } from '../styles';
 import { connect } from 'react-redux';
 import actions from "../actions";
+import { loadDirection } from "../middlewares/city";
 
 let data = {
     labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'],
@@ -38,7 +39,7 @@ let data = {
 ]
 
 const CityInfoDetails = (props) => {
-    const { subgroups, history, match, loadSubgroups, loadHistory, sendFile } = props;
+    const { subgroups, history, match, loadSubgroups, loadDirection, direction } = props;
 
     const [labels, setLabels] = useState([]);
     const [indicators, setIndicators] = useState([]);
@@ -47,47 +48,50 @@ const CityInfoDetails = (props) => {
 
     useEffect(() => {
         loadSubgroups(match.params.id);
+        loadDirection(match.params.id);
     }, [match.params.id])
 
-    useEffect(() => {
-        if(subgroups[0]) {
-            loadHistory(subgroups[0]._id);
-        }
-    }, [subgroups.length])
+    // useEffect(() => {
+    //     if(subgroups[0]) {
+    //         loadHistory(subgroups[0]._id);
+    //     }
+    // }, [subgroups.length])
 
-    useEffect(() => {
-        if(history.length) {
-            const labels = history.map(elem => {
-                let date = new Date(elem.date);
-                return `${date.getMonth() + 1}.${date.getFullYear()}`;
-            })
-            setLabels(labels);
+    // useEffect(() => {
+    //     if(history.length) {
+    //         const labels = history.map(elem => {
+    //             let date = new Date(elem.date);
+    //             return `${date.getMonth() + 1}.${date.getFullYear()}`;
+    //         })
+    //         setLabels(labels);
 
-            console.log(labels);
-            const data = history.map(elem => +elem.index);
-            console.log(data.reverse())
-            setIndicators(data);
-        }
-    }, [history.length])
+    //         console.log(labels);
+    //         const data = history.map(elem => +elem.index);
+    //         console.log(data.reverse())
+    //         setIndicators(data);
+    //     }
+    // }, [history.length])
 
 
   data.labels = labels;
   data.datasets[0].data = indicators;
 
-  const sendFileHandler = () => {
-    if(fileInput.current.files[0]) {
+  console.log('SUUBGROOPS', subgroups)
 
-        const extension = fileInput.current.files[0].name.split('.');
-        if(extension[extension.length - 1] === 'csv') {
+//   const sendFileHandler = () => {
+//     if(fileInput.current.files[0]) {
 
-            let formData = new FormData();
-            formData.append('report', fileInput.current.files[0]);
-            sendFile(formData);
-        } else alert('неправильный формат файла');
-    } else {
-        alert('нет файлов')
-    }
-  }
+//         const extension = fileInput.current.files[0].name.split('.');
+//         if(extension[extension.length - 1] === 'csv') {
+
+//             let formData = new FormData();
+//             formData.append('report', fileInput.current.files[0]);
+//             sendFile(formData);
+//         } else alert('неправильный формат файла');
+//     } else {
+//         alert('нет файлов')
+//     }
+//   }
   return (
     <Box>
         <Header />
@@ -101,7 +105,7 @@ const CityInfoDetails = (props) => {
                 </SmalText>
             </LinkStyled>
             <DisplayRowSB>
-                <Header2>Жилье и прилегающие пространства</Header2>
+                <Header2> {direction.name || ""} </Header2>
                 <DisplayRowSB>
                     <Header2 style = { { color: '#00A2FF' } }>68</Header2>
                     <Header4 style = { { marginBottom: '2px' } }>/ 100</Header4>
@@ -135,14 +139,6 @@ const CityInfoDetails = (props) => {
                             <path d="M12 15V3" stroke="#212532" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </StyledLabel>
-                    <ButtonSelector 
-                            color = '#13161F'
-                            background = 'rgba(211, 214, 223, 0.33)'
-                            style = {{ marginLeft: '25px' }}
-                            onClick = {sendFileHandler}
-                    >
-                        Отправить
-                    </ButtonSelector>
                 </div>
             </DisplayRowSB>
             <StatsContainer>
@@ -150,8 +146,10 @@ const CityInfoDetails = (props) => {
                     {
                         subgroups && subgroups.map(cr =>
                              <SmallCard
-                                key= {cr._id}
-                                progress = {cr.index}
+                                key= {cr.id}
+                                value = { cr.values.length > 0 ? cr.values[0] : 0 }
+                                disbled = { !cr.values.length > 0 }
+                                type = {cr.type}
                                 title = {cr.name}
                              />
                         )
@@ -170,12 +168,16 @@ const CityInfoDetails = (props) => {
 
 const mapStateToProps = ({ city }) => ({
     subgroups: city.subgroups,
+    direction: city.direction,
     history: city.history,
 })
 
 const mapDispatchToProps = dispatch => ({
     loadSubgroups: (payload) => {
         dispatch(actions.cityLoadSubgroups(payload));
+    },
+    loadDirection: (payload) => {
+        dispatch(actions.cityLoadDirection(payload));
     },
     loadHistory: (payload) => {
         dispatch(actions.cityLoadHistory(payload));

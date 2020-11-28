@@ -46,7 +46,7 @@ export const Text = styled.div`
 //   font-family: SF UI Display;
   font-style: normal;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 150%;
 `;
 

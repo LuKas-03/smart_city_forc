@@ -15,7 +15,7 @@ const CityInfoPage = (props) => {
   const {  user, city } = props;
 
     useEffect(() => {
-        props.loadCity(user.cities[0]);
+        props.loadCity('5fc242245a4f704dc4842776');
     },[user._id])
 
 
@@ -57,13 +57,13 @@ const CityInfoPage = (props) => {
 
         <IndicatorsContainer>
             {
-                city.groups && city.groups.map(group => 
-                    group.name ?
+                city.directions && city.directions.map(direction => 
+                    direction.name ?
                     <Card 
-                        key = {group._id}
-                        link = { `/cityInfo/${group._id}` }
-                        title = { group.name }
-                        progress = {group.index}
+                        key = {direction._id}
+                        link = { `/cityInfo/${direction.id}` }
+                        title = { direction.name }
+                        progress = {direction.values.length > 0 ? direction.values[0] : 0}
                     /> : null  
                 )
             }

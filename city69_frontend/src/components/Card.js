@@ -13,14 +13,11 @@ export const Card = props => {
     color = progress < 60 ? '#F2C94C' : color;
     color = progress < 40 ? '#EB5757' : color;
 
-    lowСriterion = 'Современность и актуальность'
-
     return (
         <Container>
             <Box>
                 <Left>
                     <Header4>{ title }</Header4>
-                    <SmalText>{ `Низкий балл «${lowСriterion}»` }</SmalText>
                     <LinkStyled to = {link}>
                         <Text>{`Критерии оценки`}
                             <svg style = { { marginLeft: '10px' } } width="28" height="8" viewBox="0 0 28 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +28,7 @@ export const Card = props => {
                 </Left>
                 <Right>
                     <CircleContainer>
-                        <CircleProgress radius = { 75 } stroke = {14} progress = { progress } firstColor = { color } fontSize = {28}/>
+                        <CircleProgress radius = { 69 } stroke = {14} progress = { progress } firstColor = { color } fontSize = {28}/>
                     </CircleContainer>
                 </Right>
             </Box>
@@ -43,10 +40,11 @@ const Container = styled.div`
     margin: 0 10px 20px 10px;
     display: flex;
     flex: 1;
+    width: 285px;
 `;
 
 const Box = styled.div`
-    height: 190px;
+    height: 125px;
     width: 100%;
     background-color: #fff;    
     border-radius: 10px;

@@ -6,7 +6,7 @@ import fetch from './fetch';
 export const loadCity = store => next => action => {
     if(action.type === CITY.LOAD) {
         console.log(action.payload)
-        fetch(`/indicators/group?city_id=${action.payload}`, {
+        fetch(`/cities/${action.payload}`, {
             method: 'GET',
         })
         .then((res) => {
@@ -17,10 +17,24 @@ export const loadCity = store => next => action => {
     next(action);
 }
 
+export const loadDirection = store => next => action => {
+    if(action.type === CITY.LOAD_DIRECTION) {
+        console.log(action.payload)
+        fetch(`/directions/${action.payload}`, {
+            method: 'GET',
+        })
+        .then((res) => {
+            store.dispatch(actions.cityLoadDirectionResponse(res));
+        })
+        .catch(error => console.log(error));
+    }
+    next(action);
+}
+
 export const loadSubgroups = store => next => action => {
     if(action.type === CITY.LOAD_SUBGROUPS) {
         console.log(action.payload)
-        fetch(`/indicators/subgroup?group_id=${action.payload}`, {
+        fetch(`/indicators/?direction_id=${action.payload}`, {
             method: 'GET',
         })
         .then((res) => {

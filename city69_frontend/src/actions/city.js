@@ -11,6 +11,16 @@ export const cityLoadResponse = payload => ({
     type: CITY.LOAD_RESPONSE
 })
 
+export const cityLoadDirection = payload => ({
+    payload: payload,
+    type: CITY.LOAD_DIRECTION
+})
+
+export const cityLoadDirectionResponse = payload => ({
+    payload: payload,
+    type: CITY.LOAD_DIRECTION_RESPONSE
+})
+
 export const cityLoadSubgroups = payload => ({
     payload: payload,
     type: CITY.LOAD_SUBGROUPS
