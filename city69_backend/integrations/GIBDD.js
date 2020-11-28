@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const gibddApiUrl = 'http://stat.gibdd.ru/getMainTable';
 
 
-module.exports = (integration, data) => {
+module.exports = (integration, data, city) => {
     try {
         const url = integration.url;
         const response = await fetch(gibddApiUrl /*поменять на url когда админка появится */, {
