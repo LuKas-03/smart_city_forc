@@ -32,7 +32,8 @@ router.post('/', async (req, res, next) => {
 router.get('/in_code', (req, res, next) => {
     res.json([
         'GIBDD',
-        'ROSSTAT'
+        'ROSSTAT',
+        'AVITO'
     ])
 })
 
