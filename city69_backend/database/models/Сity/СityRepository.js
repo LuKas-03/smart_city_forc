@@ -1,5 +1,6 @@
 const СityModel = require('./Сity');
 const Сity = require('../../../Domain/CityDomain/City');
+const createDirections = require('../../../helpers/directionsData');
 
 
 class СityRepository {
@@ -20,6 +21,7 @@ class СityRepository {
         try {
             let сityModel = new СityModel({ name, population, size});
             сityModel = await сityModel.save();
+            await createDirections(cityModel._id);
             return new Сity(сityModel);
         } catch(error) {
             console.log('[SAVE СITY ERR]', error);

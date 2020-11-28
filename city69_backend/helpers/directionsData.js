@@ -108,10 +108,15 @@ const directions = [
     },
 ]
 
-module.exports = (city_id) => {
+module.exports = async (city_id) => {
     try {
-
+        for (direction of directions) {
+            const newDirection = await Direction.save(city_id, direction.name);
+            for (indicator of direction.indicators) {
+                const newIndicator = await Indicator.save({direction_id: newDirection.id, ...indicator});
+            }
+        }
     } catch {
-
+        console.log('ERROR add directions')
     }
 }

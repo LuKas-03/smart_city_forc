@@ -14,9 +14,9 @@ class IndicatorRepository {
         }
     };
 
-    static save = async ({direction_id, integration_id, type }) => {
+    static save = async ({ name, direction_id, type }) => {
         try {
-            let indicatorModel = new IndicatorModel({ direction_id, integration_id, type });
+            let indicatorModel = new IndicatorModel({ name, direction_id, type });
             indicatorModel = await indicatorModel.save();
             return new Indicator(indicatorModel);
         } catch(error) {
@@ -31,6 +31,15 @@ class IndicatorRepository {
     static updateValues = async (id, values) => {
         try {
             let indicatorModel = await IndicatorModel.findByIdAndUpdate(id, { $push: { values: value } });
+        } catch(error) {
+            console.log('[Indicator update ERR]', error);
+            throw error;
+        }
+    }
+
+    static update = async ({id, integration_id, data }) => {
+        try {
+            let indicatorModel = await IndicatorModel.findByIdAndUpdate(id, {integration_id, data } );
         } catch(error) {
             console.log('[Indicator update ERR]', error);
             throw error;

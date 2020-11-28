@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 
 const schema = new Schema({
+    name: {
+        type: String,
+    },
     direction_id: {
         type: Schema.Types.ObjectId,
         ref: 'Direction',
