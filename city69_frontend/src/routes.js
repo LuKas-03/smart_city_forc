@@ -20,7 +20,7 @@ export const useRoutes = ({isAuth}) => {
         </Route>
         <Route path="/admin" component = {AdminPage}>
         </Route>
-        <Redirect exact to="/selectCity" />
+        <Redirect exact to="/selectCity"/>
       </Switch>
     );
   }

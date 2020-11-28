@@ -84,8 +84,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CityPage
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CityPage);
 
 const Box = styled.div`
   background-color: #F5F6FA;
