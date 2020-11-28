@@ -3,9 +3,11 @@ const Сity = require('../../../Domain/CityDomain/City');
 
 
 class СityRepository {
-    static get = async () => {
+    static get = async (obj = {}) => {
         try {
-            const сityModels = await СityModel.find();
+            console.log('получаем города')
+            const сityModels = await СityModel.find(obj);
+            console.log('Получили города')
             const сities = сityModels.map(сityModel => new Сity(сityModel));
             return сities;
         } catch(error) {
@@ -14,9 +16,9 @@ class СityRepository {
         }
     };
 
-    static save = async (name, population) => {
+    static save = async (name, population, size) => {
         try {
-            let сityModel = new СityModel({ name, population });
+            let сityModel = new СityModel({ name, population, size});
             сityModel = await сityModel.save();
             return new Сity(сityModel);
         } catch(error) {

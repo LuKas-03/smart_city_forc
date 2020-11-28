@@ -21,7 +21,7 @@ const schema = new Schema({
     size: {
         type: Number,
         default: 0
-    }
+    },
 })
 
 module.exports = City = mongoose.model('City', schema);

@@ -3,9 +3,9 @@ const Indicator = require('../../../Domain/IndicatorDomain/Indicator');
 
 
 class IndicatorRepository {
-    static get = async () => {
+    static get = async (obj = []) => {
         try {
-            const indicatorModels = await IndicatorModel.find();
+            const indicatorModels = await IndicatorModel.find(obj).populate('integration_id');
             const indicators = indicatorModels.map(indicatorModel => new Indicator(indicatorModel));
             return indicators;
         } catch(error) {
@@ -14,9 +14,9 @@ class IndicatorRepository {
         }
     };
 
-    static save = async (name, population) => {
+    static save = async ({direction_id, integration_id, type }) => {
         try {
-            let indicatorModel = new IndicatorModel({ name, population });
+            let indicatorModel = new IndicatorModel({ direction_id, integration_id, type });
             indicatorModel = await indicatorModel.save();
             return new Indicator(indicatorModel);
         } catch(error) {
@@ -27,6 +27,15 @@ class IndicatorRepository {
             throw error;
         }
     };
+
+    static updateValues = async (id, values) => {
+        try {
+            let indicatorModel = await IndicatorModel.findByIdAndUpdate(id, { $push: { values: value } });
+        } catch(error) {
+            console.log('[Indicator update ERR]', error);
+            throw error;
+        }
+    }
 
     static getOne = async (id) => {
         try {

@@ -11,14 +11,12 @@ const schema = new Schema({
     integration_id: {
         type: Schema.Types.ObjectId,
         ref: 'Integration',
-        required: true
-    },
-    index: {
-        type: Number,
-        required: true
     },
     type: {
         type: String,
+    },
+    data: {
+
     },
     values: {
         type: Array,

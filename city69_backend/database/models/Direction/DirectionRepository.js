@@ -3,9 +3,9 @@ const Direction = require('../../../Domain/DirectionDomain/Direction');
 
 
 class DirectionRepository {
-    static get = async (city_id) => {
+    static get = async (obj = {}) => {
         try {
-            const directionModels = await DirectionModel.find({city_id: city_id});
+            const directionModels = await DirectionModel.find(obj);
             const directions = directionModels.map(directionModel => new Direction(directionModel));
             return directions;
         } catch(error) {

@@ -5,7 +5,7 @@ const IndicatorRepository = require('../database/models/Indicator/Indicator');
 
 router.get('/', (req, res, next) => {
     try {
-        const result = await IndicatorRepository.get(req.query.direction_id);
+        const result = await IndicatorRepository.get(req.query.direction_id).toObject();
         res.json(result);
     } catch (err) {
         next(err);
@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     try {
-        const result = await IndicatorRepository.getOne(req.params.id);
+        const result = await IndicatorRepository.getOne(req.params.id).toObject();
         res.json(result);
     } catch(err) {
         next(err);
@@ -23,10 +23,17 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     try {
-        const result = await IndicatorRepository.save(req.city_id, req.name);
+        const result = await IndicatorRepository.save(req.city_id, req.name).toObject();
     } catch (err) {
         next(err);
     }
+})
+
+router.get('/in_code', (req, res, next) => {
+    res.json([
+        'GIBDD',
+        'ROSSTAT'
+    ])
 })
 
 module.exports = router;
