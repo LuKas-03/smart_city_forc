@@ -7,9 +7,8 @@ const products = require('../integrations/products-count');
 // example: {"indicator": "1", "date": "MONTHS:11.2020", "parrentRegion": "65", "regions": "654011"}
 router.post('/gibdd', async ( req, res, next ) => {
   const { indicator, date, parrentRegion, regions  } = req.body;
-  stat_gibdd([indicator], date, [parrentRegion], [regions], 
-    (result) => res.send(result)
-  );
+  const result = await stat_gibdd([indicator], date, [parrentRegion], [regions]);
+  res.send(result)
 })
 
 // example: /products-count/ekaterinburg
