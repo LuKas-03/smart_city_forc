@@ -9,7 +9,6 @@ router.post('/', async (req, res, next) => {
     const { name, population, size } = req.body;
     try {
         const city = await CityRepository.save(name, population, size);
-        console.log(city)
         if(city.errorCode === 0) {
             res.json(city);
         }

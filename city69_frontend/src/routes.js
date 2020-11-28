@@ -3,19 +3,24 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import AuthPage from "./pages/AuthPage";
 import { SelectCityPage } from "./pages/SelectCityPage";
-import CityInfoPage from "./pages/CityInfoPage";
-import CityInfoDetails from './pages/CityInfoDetails';
+import ParametrOfCityPage from "./pages/ParametrOfCityPage";
+import CityPage from './pages/CityPage';
+import { AdminPage } from "./pages/AdminPage";
 
 export const useRoutes = ({isAuth}) => {
   console.log('isAuth');
-  if (isAuth) {
+  if (!isAuth) {
     return (
       <Switch>
-        <Route exact path="/cityInfo" component = {CityInfoPage}>
+        <Route exact path="/selectCity" component = {SelectCityPage}>
         </Route>
-        <Route path="/cityInfo/:id" component = {CityInfoDetails}>
+        <Route exact path="/city/:id" component = {CityPage}>
         </Route>
-        <Redirect exact to="/cityInfo" />
+        <Route path="/city/:id/parametrs" component = {ParametrOfCityPage}>
+        </Route>
+        <Route path="/admin" component = {AdminPage}>
+        </Route>
+        <Redirect exact to="/selectCity"/>
       </Switch>
     );
   }

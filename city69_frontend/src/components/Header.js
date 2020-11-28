@@ -9,7 +9,7 @@ export const Header = (props) => {
     <Box>
       <Title>
         <Symbol />
-        <Header4>ГОРОД89</Header4>
+        <Header4>Умный город</Header4>
       </Title>
       <Account visible={{props}}>
         <Name></Name>

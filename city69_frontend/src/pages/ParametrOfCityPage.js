@@ -38,8 +38,8 @@ let data = {
     {}, {}, {} ,{}, {}, {}
 ]
 
-const CityInfoDetails = (props) => {
-    const { subgroups, history, match, loadSubgroups, loadDirection, direction } = props;
+const ParametrOfCityPage = (props) => {
+    const { subgroups, history, match, loadSubgroups, loadHistory, sendFile } = props;
 
     const [labels, setLabels] = useState([]);
     const [indicators, setIndicators] = useState([]);
@@ -187,7 +187,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CityInfoDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ParametrOfCityPage);
 
 const Box = styled.div`
   background-color: #F5F6FA;

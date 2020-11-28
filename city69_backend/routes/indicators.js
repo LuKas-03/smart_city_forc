@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const result = await IndicatorRepository.getOne(req.params.id).toObject();
+        const result = (await IndicatorRepository.getOne(req.params.id)).toObject();
         res.json(result);
     } catch(err) {
         next(err);
@@ -24,7 +24,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const result = await IndicatorRepository.save(req.city_id, req.name).toObject();
+        const result = await IndicatorRepository.save(req.body);
+        res.json({ok: true})
     } catch (err) {
         next(err);
     }
@@ -33,7 +34,6 @@ router.post('/', async (req, res, next) => {
 router.get('/in_code', (req, res, next) => {
     res.json([
         'GIBDD',
-        'ROSSTAT',
         'AVITO'
     ])
 })

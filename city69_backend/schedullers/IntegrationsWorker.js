@@ -41,7 +41,7 @@ class IntegrationWorker extends JobScheduler {
                         const data = indicator.data;
 
                         const integrationScript = require(`../integrations/${integration.int_code}`);
-                        const result_integration = await integrationScript(integration, data);
+                        const result_integration = await integrationScript(integration, data, city);
 
 
                         await Indicator.updateValues(indicator.id, { date: new Date(), index: result_integration });

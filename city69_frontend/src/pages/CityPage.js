@@ -11,12 +11,12 @@ const indicators = [
     {id: '1'}, {id: '2'}, {id: '3'} ,{id: '4'}, {id: '5'}, {id: '6'}
 ]
 
-const CityInfoPage = (props) => {
+const CityPage = (props) => {
   const {  user, city } = props;
 
-    useEffect(() => {
-        props.loadCity('5fc242245a4f704dc4842776');
-    },[user._id])
+    // useEffect(() => {
+    //     props.loadCity(user.cities[0]);
+    // },[user._id])
 
 
     console.log(city)
@@ -84,7 +84,7 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CityInfoPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CityPage);
 
 const Box = styled.div`
   background-color: #F5F6FA;

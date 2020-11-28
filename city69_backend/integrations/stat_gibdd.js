@@ -1,7 +1,7 @@
-const request = require('request');
+const fetch = require('node-fetch');
 const gibddApiUrl = 'http://stat.gibdd.ru/getMainTable';
 
-const getMainTable = function(indicators, date, parrentRegion, regions, next) {
+module.exports = async function(indicators, date, parrentRegion, regions) {
     const json = JSON.stringify({
         pok: indicators,
         date: date,
@@ -10,18 +10,16 @@ const getMainTable = function(indicators, date, parrentRegion, regions, next) {
         tdata:"0"
     });
 
-    request.post({
-        url: gibddApiUrl,
-        json: {data: json}
-    }, (err, response, body) => {
-        console.log(body)
-        if(err) {
-            console.log(err);
-            return;
-        } 
-
-        next(JSON.parse(body.data)[0])
+    const response = await fetch(gibddApiUrl /*поменять на url когда админка появится */, {
+        method: 'POST',
+        body:    JSON.stringify({data: json}),
+        headers: { 'Content-Type': 'application/json' }
     });
-};
 
-module.exports = getMainTable;
+    if(!response.ok) {
+        throw new Error('bad response');
+    }
+
+    const reultJSON = await response.json();
+    return JSON.parse(reultJSON.data)[0].Data[0].Dt[0].dtp;
+};
