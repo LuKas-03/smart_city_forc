@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
+
 export const CityCard = (props) => {
   return (
     <Block>
@@ -12,7 +14,7 @@ export const CityCard = (props) => {
           Iq города
         </Marks>
       </TitleMarks>
-      <Link to="/city/2">IQ города &#8594; </Link>
+      <LinkStyled to="/city/2">IQ города &#8594; </LinkStyled>
     </Block>
   );
 };
@@ -46,7 +48,7 @@ const Title = styled.div`
   line-height: 150%;
   color: #212532;
 `;
-const Link = styled.div`
+const LinkStyled = styled(Link)`
   font-family: SF UI Display;
   font-style: normal;
   font-weight: 300;
