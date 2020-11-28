@@ -1,16 +1,10 @@
 class City {
-    constructor(id, name, population, index) {
-        this.id = id;
+    constructor({ _id, name, population, index }) {
+        this.id = _id;
         this.name = name;
         this.population = population;
         this.index = index;
     }
-
-    static modelToDomain = (model) => {
-        const { _id, name, population, index } = model;
-        const city = new this (_id, name, population, index);
-        return city;
-    };
 
     toObject = () => {
         return {

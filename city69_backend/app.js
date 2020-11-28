@@ -8,6 +8,7 @@ const connectDatabase = require('./database/index');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const сitiesRouter = require('./routes/cities');
+const directionsRouter = require('./routes/directions');
 const indicatorsRouter = require('./routes/indicators');
 const providersRouter = require('./routes/providers');
 const uploadRouter = require('./routes/upload');

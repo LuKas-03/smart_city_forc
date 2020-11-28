@@ -6,21 +6,21 @@ class IndicatorRepository {
     static get = async () => {
         try {
             const indicatorModels = await IndicatorModel.find();
-            const indicators = indicatorModels.map(indicatorModel => Indicator.modelToDomain(indicatorModel));
+            const indicators = indicatorModels.map(indicatorModel => new Indicator(indicatorModel));
             return indicators;
         } catch(error) {
-            console.log('[GET INDICATOR ERR]', error);
+            console.log('[GET Indicator ERR]', error);
             throw error;
         }
     };
 
-    static save = async (city, index, date, provider, isFromReport, values) => {
+    static save = async (name, population) => {
         try {
-            let indicatorModel = new IndicatorModel({ city, index, date, provider, isFromReport, values });
+            let indicatorModel = new IndicatorModel({ name, population });
             indicatorModel = await indicatorModel.save();
-            return Indicator.modelToDomain(indicatorModel);
+            return new Indicator(indicatorModel);
         } catch(error) {
-            console.log('[SAVE INDICATOR ERR]', error);
+            console.log('[SAVE Indicator ERR]', error);
             if (error.name === 'MongoError' && error.code === 11000) {
                 return {errorCode: 0, message: 'уже существует'};
             }
@@ -28,35 +28,12 @@ class IndicatorRepository {
         }
     };
 
-    static getLastDate = async (city, provider) => {
-        try {
-            return await IndicatorModel
-                .find({ city, provider })
-                .sort({ date: -1 })
-                .limit(1);
-
-        } catch(error) {
-            console.log(error);
-            throw error;
-        }
-    };
-
-    static getByCityAndProvider = async (city, provider) => {
-        try {
-            return await IndicatorModel.find({ city, provider });
-
-        } catch(error) {
-            console.log(error);
-            throw error;
-        }
-    };
-
     static getOne = async (id) => {
         try {
             const indicatorModel = await IndicatorModel.findById(id);
-            return Indicator.modelToDomain(indicatorModel);
+            return new Indicator(indicatorModel);
         } catch(error) {
-            console.log('[GET ONE INDICATOR ERR]', error);
+            console.log('[GET ONE Indicator ERR]', error);
             throw error;
         }
     };
@@ -64,9 +41,9 @@ class IndicatorRepository {
     static delete = async (id) => {
         try {
             const indicatorModel = await IndicatorModel.findByIdAndDelete(id);
-            return Indicator.modelToDomain(indicatorModel);
+            return new Indicator(indicatorModel);
         } catch(error) {
-            console.log('[DELETE INDICATOR ERR]', error);
+            console.log('[DELETE Indicator ERR]', error);
             throw error;
         }
     };

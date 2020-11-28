@@ -6,7 +6,7 @@ class СityRepository {
     static get = async () => {
         try {
             const сityModels = await СityModel.find();
-            const сities = сityModels.map(сityModel => Сity.modelToDomain(сityModel));
+            const сities = сityModels.map(сityModel => new Сity(сityModel));
             return сities;
         } catch(error) {
             console.log('[GET СITY ERR]', error);
@@ -18,7 +18,7 @@ class СityRepository {
         try {
             let сityModel = new СityModel({ name, population });
             сityModel = await сityModel.save();
-            return Сity.modelToDomain(сityModel);
+            return new Сity(сityModel);
         } catch(error) {
             console.log('[SAVE СITY ERR]', error);
             if (error.name === 'MongoError' && error.code === 11000) {
@@ -31,7 +31,7 @@ class СityRepository {
     static getOne = async (id) => {
         try {
             const cityModel = await СityModel.findById(id);
-            return Сity.modelToDomain(cityModel);
+            return new Сity(cityModel);
         } catch(error) {
             console.log('[GET ONE СITY ERR]', error);
             throw error;
@@ -41,7 +41,7 @@ class СityRepository {
     static delete = async (id) => {
         try {
             const сityModel = await СityModel.findByIdAndDelete(id);
-            return Сity.modelToDomain(сityModel);
+            return new Сity(сityModel);
         } catch(error) {
             console.log('[DELETE СITY ERR]', error);
             throw error;

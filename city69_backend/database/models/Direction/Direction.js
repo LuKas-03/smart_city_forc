@@ -3,22 +3,13 @@ const Schema = mongoose.Schema;
 
 
 const schema = new Schema({
-    direction_id: {
+    city_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Direction',
-        required: true
+        ref: 'City'
     },
-    integration_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'Integration',
-        required: true
-    },
-    index: {
-        type: Number,
-        required: true
-    },
-    type: {
+    name: {
         type: String,
+        required: true,
     },
     values: {
         type: Array,
@@ -31,4 +22,4 @@ const schema = new Schema({
     }
 })
 
-module.exports = Indicator = mongoose.model('Indicator', schema);
+module.exports = Direction = mongoose.model('Direction', schema);
