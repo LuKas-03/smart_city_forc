@@ -19,7 +19,8 @@ const schema = new Schema({
         type: String,
     },
     data: {
-
+        type: String,
+        default: '{}'
     },
     values: {
         type: Array,

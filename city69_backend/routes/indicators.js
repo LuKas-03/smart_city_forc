@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const IndicatorRepository = require('../database/models/Indicator/IndicatorRepository');
+const Integration = require('../database/models/Integration/IntegrationRepository');
 
 
 router.get('/', async (req, res, next) => {
@@ -35,6 +36,15 @@ router.get('/in_code', (req, res, next) => {
         'ROSSTAT',
         'AVITO'
     ])
+})
+
+router.post('/integration', (req, res, next) => {
+    try {
+        
+
+    } catch (err) {
+        next(err);
+    }
 })
 
 module.exports = router;
