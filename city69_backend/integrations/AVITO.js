@@ -13,7 +13,7 @@ module.exports = (integration, data, city) => {
             throw new Error('bad response');
         }
 
-        return (parse(response.text()) / city.population).toFixed(2);
+        return (parse(response.text()) / city.population * 0.8).toFixed(2);
     } catch(error) {
         console.log('[ERROR] request AVITO integration', error);
     }
