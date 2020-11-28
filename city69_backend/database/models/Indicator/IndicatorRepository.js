@@ -3,7 +3,7 @@ const Indicator = require('../../../Domain/IndicatorDomain/Indicator');
 
 
 class IndicatorRepository {
-    static get = async (obj = []) => {
+    static get = async (obj = {}) => {
         try {
             const indicatorModels = await IndicatorModel.find(obj).populate('integration_id');
             const indicators = indicatorModels.map(indicatorModel => new Indicator(indicatorModel));

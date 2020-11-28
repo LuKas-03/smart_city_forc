@@ -37,7 +37,7 @@ class IntegrationWorker extends JobScheduler {
 
                     for(let indicator of indicators ) {
 
-                        const integration = indicator.integration_id //я долбоеб и назвал это integration_id хотя это потом стало объектом с интеграцией
+                        const integration = indicator.integration_id //я идиот и назвал это integration_id хотя это потом стало объектом с интеграцией
                         const data = indicator.data;
 
                         const integrationScript = require(`../integrations/${integration.int_code}`);

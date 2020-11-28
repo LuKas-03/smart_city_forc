@@ -16,7 +16,7 @@ class DirectionRepository {
 
     static save = async (city_id, name) => {
         try {
-            let directionModel = new СityModel({ city_id, name });
+            let directionModel = new DirectionModel({ city_id, name });
             directionModel = await directionModel.save();
             return new Direction(directionModel);
         } catch(error) {

@@ -19,10 +19,10 @@ class СityRepository {
 
     static save = async (name, population, size) => {
         try {
-            let сityModel = new СityModel({ name, population, size});
-            сityModel = await сityModel.save();
+            let cityModel = new СityModel({ name, population, size});
+            cityModel = await cityModel.save();
             await createDirections(cityModel._id);
-            return new Сity(сityModel);
+            return new Сity(cityModel);
         } catch(error) {
             console.log('[SAVE СITY ERR]', error);
             if (error.name === 'MongoError' && error.code === 11000) {

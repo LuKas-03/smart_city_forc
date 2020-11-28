@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const DirectionRepository = require('../database/models/Direction/Direction');
+const DirectionRepository = require('../database/models/Direction/DirectionRepository');
 
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const result = await DirectionRepository.get(req.query.city_id).toObject();
         res.json(result);
@@ -12,16 +12,16 @@ router.get('/', (req, res, next) => {
     }
 })
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        const result = await DirectionRepository.getOne(req.params.id).toObject();
+        const result = (await DirectionRepository.getOne(req.params.id)).toObject();
         res.json(result);
     } catch(err) {
         next(err);
     }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const result = await DirectionRepository.save(req.city_id, req.name).toObject();
         res.json({ok: true})

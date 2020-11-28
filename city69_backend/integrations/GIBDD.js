@@ -12,8 +12,7 @@ module.exports = (integration, data) => {
         if(!response.ok) {
             throw new Error('bad response');
         }
-        console.log('[INFO] Success GIBDD integration')
-        return;
+        return response;
     } catch(error) {
         console.log('[ERROR] request GIBDD integration', error);
     }

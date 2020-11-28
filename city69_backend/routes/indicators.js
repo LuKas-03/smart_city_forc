@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const IndicatorRepository = require('../database/models/Indicator/Indicator');
+const IndicatorRepository = require('../database/models/Indicator/IndicatorRepository');
 
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
-        const result = await IndicatorRepository.get(req.query.direction_id).toObject();
+        const result = await IndicatorRepository.get({direction_id: req.query.direction_id});
         res.json(result);
     } catch (err) {
         next(err);
     }
 })
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
         const result = await IndicatorRepository.getOne(req.params.id).toObject();
         res.json(result);
@@ -21,7 +21,7 @@ router.get('/:id', (req, res, next) => {
     }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const result = await IndicatorRepository.save(req.city_id, req.name).toObject();
     } catch (err) {
