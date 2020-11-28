@@ -23,8 +23,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const {name, direction_id, type} = req.body;
-        const result = await IndicatorRepository.save(name, direction_id, type);
+        const result = await IndicatorRepository.save(req.body);
+        res.json({ok: true})
     } catch (err) {
         next(err);
     }

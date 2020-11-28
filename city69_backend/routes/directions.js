@@ -24,7 +24,7 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     try {
         const {city_id, name} = req.body;
-        const result = await DirectionRepository.save({city_id: city_id, name: name});
+        const result = await DirectionRepository.save(city_id, name);
         res.json({ok: true})
     } catch (err) {
         next(err);

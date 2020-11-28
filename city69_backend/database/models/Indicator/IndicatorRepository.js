@@ -14,9 +14,9 @@ class IndicatorRepository {
         }
     };
 
-    static save = async ({ name, direction_id, type }) => {
+    static save = async (obj = {}) => {
         try {
-            let indicatorModel = new IndicatorModel({ name, direction_id, type });
+            let indicatorModel = new IndicatorModel(obj);
             indicatorModel = await indicatorModel.save();
             return new Indicator(indicatorModel);
         } catch(error) {
