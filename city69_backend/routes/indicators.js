@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const result = await IndicatorRepository.getOne(req.params.id).toObject();
+        const result = (await IndicatorRepository.getOne(req.params.id)).toObject();
         res.json(result);
     } catch(err) {
         next(err);
@@ -23,7 +23,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const result = await IndicatorRepository.save(req.city_id, req.name).toObject();
+        const {name, direction_id, type} = req.body;
+        const result = await IndicatorRepository.save(name, direction_id, type);
     } catch (err) {
         next(err);
     }

@@ -5,7 +5,7 @@ const DirectionRepository = require('../database/models/Direction/DirectionRepos
 
 router.get('/', async (req, res, next) => {
     try {
-        const result = await DirectionRepository.get(req.query.city_id).toObject();
+        const result = await DirectionRepository.get({city_id: req.query.city_id});
         res.json(result);
     } catch (err) {
         next(err);
@@ -23,7 +23,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const result = await DirectionRepository.save(req.city_id, req.name).toObject();
+        const {city_id, name} = req.body;
+        const result = await DirectionRepository.save({city_id: city_id, name: name});
         res.json({ok: true})
     } catch (err) {
         next(err);
