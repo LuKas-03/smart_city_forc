@@ -1,12 +1,27 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import { CityCard } from "../components/CityCard";
 import { Header } from "../components/Header";
 import mapimg from "../select-city-background.svg";
 import ekb from "../Ekb.svg";
 import msk from "../msk.svg";
+import { useHttp } from "../hooks/http.hook";
+
 
 export const SelectCityPage = () => {
+   
+  const {request}=useHttp()
+
+  const fetchCities= async ()=>{
+    const data=await request("/cities/","GET")
+    console.log("DATA",data)
+  }
+  // fetchCities()
+
+  useEffect(() => {
+fetchCities()
+  }, [])
+
   return (
     <Box>
       <Header />
