@@ -1,4 +1,3 @@
-const request = require('request');
 const fetch = require('node-fetch');
 const gibddApiUrl = 'http://stat.gibdd.ru/getMainTable';
 
