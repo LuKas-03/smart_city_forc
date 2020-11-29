@@ -113,7 +113,7 @@ const ParametrOfCityPage = (props) => {
             </DisplayRowSB>
 
             <DisplayRowSB style = {{ margin: '10px 0 44px 0' }}>
-                <Header5>ямало-ненецкий автономный округ</Header5>
+                <Header5> </Header5>
                 <Header5>рейтинг пространства</Header5>
             </DisplayRowSB>
             <DisplayRowSB>
