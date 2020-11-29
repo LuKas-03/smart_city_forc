@@ -11,7 +11,7 @@ const сitiesRouter = require('./routes/cities');
 const directionsRouter = require('./routes/directions');
 const indicatorsRouter = require('./routes/indicators');
 const uploadRouter = require('./routes/upload');
-//const reportRouter = require('./routes/report');
+const reportRouter = require('./routes/report');
 const devRouter = require('./routes/dev');
 
 const app = express();
@@ -38,7 +38,7 @@ app.use('/cities', сitiesRouter);
 app.use('/directions', directionsRouter);
 app.use('/indicators', indicatorsRouter);
 app.use('/upload', uploadRouter);
-//app.use('/report', reportRouter);
+app.use('/report', reportRouter);
 
 app.use('/dev', devRouter); // test
 
