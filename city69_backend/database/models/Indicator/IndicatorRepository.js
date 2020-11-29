@@ -30,7 +30,7 @@ class IndicatorRepository {
 
     static updateValues = async (id, values) => {
         try {
-            let indicatorModel = await IndicatorModel.findByIdAndUpdate(id, { $push: { values: value } });
+            let indicatorModel = await IndicatorModel.findByIdAndUpdate(id, { $push: { values: values } });
         } catch(error) {
             console.log('[Indicator update ERR]', error);
             throw error;

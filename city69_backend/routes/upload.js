@@ -5,14 +5,13 @@ const router = express.Router();
 const report_parser = require('../parsers/report-parcer');
 const report_processor = require('../parsers/report-processor');
 
-const uloadsFolder = 'temp';
-const upload_middleware = multer({dest: uloadsFolder})
+const uploadsFolder = 'temp';
+const upload_middleware = multer({dest: uploadsFolder})
 
-router.post('/:provider/:city', upload_middleware.single("report"), ((req, res) => {
-  const provider= req.params.provider;
-  const city =  req.params.city;
+router.post('/:indicator_id', upload_middleware.single("report"), ((req, res) => {
+  const indicator_id= req.params.indicator_id;
   console.log(req.body)
-  const filePatch = uloadsFolder + '\\' + req.file.filename;
+  const filePatch = uploadsFolder + '\\' + req.file.filename;
 
   const fsStram = fs.createReadStream(filePatch)
     .on('error', err => console.log(`[FILE READ ERROR] ${err}`));
@@ -20,7 +19,7 @@ router.post('/:provider/:city', upload_middleware.single("report"), ((req, res) 
     report_parser(fsStram, 'csv', (report) => report).then(
     result => {
       fs.unlinkSync(filePatch);
-      report_processor(provider, city, result).then(res.status(200).send());
+      report_processor(indicator_id, result).then(res.status(200).send());
     });
 }));
 
